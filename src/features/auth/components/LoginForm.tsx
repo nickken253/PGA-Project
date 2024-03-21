@@ -1,146 +1,115 @@
-import React from 'react'
-import { Formik } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useLogin } from '../../../lib/auth';
-import { axios } from '../../../lib/axios';
-import style from './LoginForm.module.scss';
-import {
-  loginEmailAndPassword,
-  LoginCredentials,
-  AuthUser,
-  UserResponse,
-} from "../../../features/auth";
 import storage from '../../../utils/storage';
 import { useEffect, useState } from 'react';
-import { on } from 'events';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { notify } from '../../../components/notification';
-import { error } from 'console';
+import { EMAIL_REGEX } from '../../../config';
+import { STYLES as styles } from './../../../config';
+import { BUTTON_STYLES as btnStyles } from '../../../config';
+import { Button } from '../../../components/Buttons';
+import { useNavigate } from 'react-router-dom';
+
 interface LoginFormProps {
   onSuccess: () => void;
 }
 
+const validateEmail = (value: string) => {
+  let error;
+  if (!value) {
+    error = 'Email is required';
+  } else if (!EMAIL_REGEX.test(value)) {
+    error = 'Invalid email address';
+  }
+  return error;
+};
+
+const validatePassword = (value: string) => {
+  let error;
+  if (!value) {
+    error = 'Password is required';
+  }
+  return error;
+};
+
+
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin();
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = storage.get('token');
     if (token) {
-      // console.log('token', token);
       onSuccess();
-      notify({ type: 'success', mess: 'Đăng nhập thành công' })
+      notify({ type: 'success', mess: 'Đăng nhập thành công' });
     }
-  },);
+
+    if (login.data) {
+      if (login.data.email) {
+        notify({ type: 'error', mess: `${login.data.email}` });
+        console.log(login.data.email);
+      } else {
+        console.log(login.data);
+      }
+    }
+  }, [login.data, storage.get('token')]);
+
   return (
     <div className='w-full h-full flex items-center justify-center'>
-      <div className='p-5 py-20 bg-white rounded-3xl drop-shadow-lg md:w-[600px]'>
+      <div className='p-5 pt-20 bg-white rounded-3xl drop-shadow-lg md:w-[600px]'>
         <div className='flex items-center justify-center mb-10'>
           <img src="https://cpq6cb.p3cdn1.secureserver.net/wp-content/uploads/2020/09/logo2.png" alt="PGA Logo" />
         </div>
         <Formik
           initialValues={{ email: '', password: '' }}
-          validate={values => {
-            const errors: any = {}
-            if (!values.email) {
-              errors.email = 'Required'
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                values.email
-              )
-            ) {
-              errors.email = 'Invalid email address'
-            }
-            if (!values.password) {
-              errors.password = 'Required';
-            }
-            if (errors.email === undefined)
-            setIsValidEmail(true);
-            else
-              setIsValidEmail(false);
-
-            if (errors.password === undefined)
-              setIsValidPassword(true);
-            else
-              setIsValidPassword(false);
-            console.log('errors', errors);
-            return errors
-          }}
           onSubmit={(values, { setSubmitting }) => {
-
-            login.mutate({ email: values.email, password: values.password });
-            // console.log("data: ",login.data);
-            
-            const token = storage.get('token');
-            if (token) {
-              notify({ type: 'success', mess: 'Login success' })
-              console.log('token', token);
-
-              // onSuccess();
-            }
-            else {
-              // notify({type: 'error', mess: 'Login failed'});
-            }
+            login.mutate({ email: values.email, password: values.password }); // return void
             setSubmitting(false);
-            // setSubmitting(true);
           }}
         >
-          {({ values, errors, handleChange, handleSubmit }) => (
-            <form noValidate onSubmit={handleSubmit} className="w-full">
+          {() => (
+            <Form className={"w-full"}>
               <div className="md:flex md:items-center mb-2">
                 <div className="md:w-1/5">
-                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="email">
+                  <label className={styles.label} htmlFor='Email'>
                     Email
                   </label>
                 </div>
                 <div className="md:w-4/5">
-                  <input
-                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="email"
-                    type="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    placeholder='Email address'
-                  />
+                  <Field className={styles.field} validate={validateEmail} id='email' name='email' />
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/5"></div><div className="md:w-4/5">
-                  <div className={`text-sm text-red-600 ${errors.email !== "Required" ? 'invisible' : ''} `}>Vui lòng nhập email</div>
+                <div className="md:w-1/5"></div>
+                <div className="md:w-4/5">
+                  <ErrorMessage component='a' className={styles.errorMsg} name='email' />
                 </div>
               </div>
+
               <div className="md:flex md:items-center mb-2">
                 <div className="md:w-1/5">
-                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="password">
+                  <label className={styles.label} htmlFor='Password'>
                     Password
                   </label>
                 </div>
                 <div className="md:w-4/5">
-                  <input
-                    className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                    id="password"
-                    type="password"
-                    value={values.password}
-                    onChange={handleChange}
-                    placeholder='Password'
-                  />
+                  <Field className={styles.field} validate={validatePassword} id='password' name='password' />
                 </div>
               </div>
               <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/5"></div><div className="md:w-4/5">
-                  <div className={`text-sm text-red-600 ${errors.password !== "Required" ? 'invisible' : ''} `}>Vui lòng nhập mật khẩu</div>
+                <div className="md:w-1/5"></div>
+                <div className="md:w-4/5">
+                  <ErrorMessage component='a' className={styles.errorMsg} name='password' />
                 </div>
               </div>
+
               <div className="flex w-full md:items-center justify-center flex-col">
                 <div className="md:w-full flex items-center justify-center">
-                  <button
-                    className={`shadow bg-purple-500 hover:bg-purple-600 focus:shadow-outline-purple focus:outline-none text-white font-bold py-2 px-4 rounded ${!values.email || !values.password ? 'opacity-50 bg-gray-500 hover:bg-gray-500' : ''}`}
-                    type="submit"
-                    disabled={!values.email || !values.password}
-                  >
-                    Log In
-                  </button>
+                  <div className=''>
+                    <Button
+                      label='Login'
+                      type='submit'
+                      style='login'
+                    />
+                  </div>
                 </div>
                 <div className='mt-5'>
                   <a href="" className='text-blue-600 hover:underline'>
@@ -148,10 +117,21 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                   </a>
                 </div>
               </div>
-            </form>
+              <div className="w-full h-px bg-gray-300 my-5"></div>
+              <div className="flex w-full md:items-center justify-center flex-col">
+                <div className="md:w-full flex items-center justify-center">
+                  <div className=''>
+                    <Button
+                      label='Create New Account'
+                      onClick={() => { navigate('/auth/register') }}
+                      style='register'
+                    />
+                  </div>
+                </div>
+              </div>
+            </Form >
           )}
-        </Formik>
-
+        </Formik >
       </div >
     </div >
   )

@@ -5,6 +5,8 @@ import {
     LoginCredentials,
     AuthUser,
     UserResponse,
+    RegisterCredentials,
+    registerEmailAndPassword,
 } from "../features/auth";
 import storage from "../utils/storage";
 import { t } from '@tanstack/query-core/build/legacy/queryClient-6vLRMq5C';
@@ -19,20 +21,21 @@ async function handleUserResponse(response: UserResponse): Promise<any>{
 
 async function handleUserError(response: UserResponse): Promise<any>{
     const { user, user_cookie, success, errors, data } = response;
-
     return errors;
 }
 
 async function login(credentials: LoginCredentials): Promise<AuthUser>{
-    // console.log('login call', credentials);
     const response = await loginEmailAndPassword(credentials);  
-    // console.log('response', response);
     const user = await handleUserResponse(response);
     const error = await handleUserError(response);
-    console.log('error', error);
-    console.log('user', user);
-
     return (user===false ? error : user);
+}
+
+async function register(credentials: RegisterCredentials): Promise<any>{
+    const response = await registerEmailAndPassword(credentials);
+    // const user = await handleUserResponse(response);
+    // const error = await handleUserError(response);
+    return response;
 }
 
 async function logout(): Promise<void>{

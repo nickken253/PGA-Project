@@ -1,4 +1,5 @@
 export interface AuthUser {
+  email: any;
   profile_id: string;
   login: string;
   firstName: string;

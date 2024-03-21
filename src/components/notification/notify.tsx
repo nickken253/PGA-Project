@@ -3,7 +3,7 @@ import { ToastPosition, toast } from 'react-toastify';
 export const notify = ({ type, mess }: any) => {
   const stylee = {
     position: 'top-right',
-    autoClose: 5000,
+    autoClose: 1000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -16,7 +16,7 @@ export const notify = ({ type, mess }: any) => {
     case 'error':
       toast.error(mess, {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -28,7 +28,7 @@ export const notify = ({ type, mess }: any) => {
     case 'success':
       toast.success(mess,{
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -40,7 +40,7 @@ export const notify = ({ type, mess }: any) => {
     case 'warning':
       toast.warning(mess,{
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -52,7 +52,7 @@ export const notify = ({ type, mess }: any) => {
     case 'info':
       toast.info(mess, {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -64,7 +64,7 @@ export const notify = ({ type, mess }: any) => {
     default:
       toast(mess, {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
