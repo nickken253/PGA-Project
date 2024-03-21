@@ -31,7 +31,7 @@ export const Landing = () => {
                 {token && (
                     <Button
                         label='Logout'
-                        onClick={() => {handleLogout(); navigate('/auth/login')}}
+                        onClick={() => {handleLogout(); navigate('/')}}
                         style='logout'
                     />
                 )}

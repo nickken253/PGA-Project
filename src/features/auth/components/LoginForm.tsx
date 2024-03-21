@@ -1,13 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useLogin } from '../../../lib/auth';
 import storage from '../../../utils/storage';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { notify } from '../../../components/notification';
 import { EMAIL_REGEX } from '../../../config';
-import { STYLES as styles } from './../../../config';
-import { BUTTON_STYLES as btnStyles } from '../../../config';
 import { Button } from '../../../components/Buttons';
 import { useNavigate } from 'react-router-dom';
+import { FormField, FormError, FormGroup, FormLabel } from '../../../components/Form';
 
 interface LoginFormProps {
   onSuccess: () => void;
@@ -42,13 +41,10 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       notify({ type: 'success', mess: 'Đăng nhập thành công' });
     }
 
-    if (login.data) {
-      if (login.data.email) {
-        notify({ type: 'error', mess: `${login.data.email}` });
-        console.log(login.data.email);
-      } else {
-        console.log(login.data);
-      }
+    if (login.data !== 'OK') {
+      if (login.data) {
+        notify({ type: 'error', mess: `${login.data}` });
+      } 
     }
   }, [login.data, storage.get('token')]);
 
@@ -67,39 +63,17 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
         >
           {() => (
             <Form className={"w-full"}>
-              <div className="md:flex md:items-center mb-2">
-                <div className="md:w-1/5">
-                  <label className={styles.label} htmlFor='Email'>
-                    Email
-                  </label>
-                </div>
-                <div className="md:w-4/5">
-                  <Field className={styles.field} validate={validateEmail} id='email' name='email' />
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/5"></div>
-                <div className="md:w-4/5">
-                  <ErrorMessage component='a' className={styles.errorMsg} name='email' />
-                </div>
-              </div>
+              <FormGroup>
+                <FormLabel children="Email" htmlFor="email" />
+                <FormField type="email" placeholder="Email Address" validate={validateEmail} id="email"  name="email"/>
+              </FormGroup>
+              <FormError component="a" name="email" />
 
-              <div className="md:flex md:items-center mb-2">
-                <div className="md:w-1/5">
-                  <label className={styles.label} htmlFor='Password'>
-                    Password
-                  </label>
-                </div>
-                <div className="md:w-4/5">
-                  <Field className={styles.field} validate={validatePassword} id='password' name='password' />
-                </div>
-              </div>
-              <div className="md:flex md:items-center mb-6">
-                <div className="md:w-1/5"></div>
-                <div className="md:w-4/5">
-                  <ErrorMessage component='a' className={styles.errorMsg} name='password' />
-                </div>
-              </div>
+              <FormGroup>
+                <FormLabel children="Password" htmlFor="password" />
+                <FormField type="password" placeholder="Password" validate={validatePassword} id="password" name="password"/>
+              </FormGroup>
+              <FormError component="a" name="password" />
 
               <div className="flex w-full md:items-center justify-center flex-col">
                 <div className="md:w-full flex items-center justify-center">

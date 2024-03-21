@@ -1,5 +1,4 @@
 import { axios } from '../../../lib/axios';
-import { UserResponse } from '../types';
 
 export interface RegisterCredentials {
     email: string;
@@ -12,7 +11,6 @@ export interface RegisterCredentials {
 };
 
 export const registerEmailAndPassword = async (credentials: RegisterCredentials): Promise<any> => { 
-    // const data = axios.post('/authentication/login', credentials);
-    const data = 'NO REGISTER API YET';
+    const data = axios.post('/auth/register', credentials);
     return data;
 }

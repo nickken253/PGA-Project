@@ -17,3 +17,5 @@ export interface IUserResponse {
   code: Number;
   data?: IUserData;
 }
+
+
