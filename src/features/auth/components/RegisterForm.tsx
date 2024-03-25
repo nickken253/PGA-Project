@@ -72,7 +72,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         const token = storage.get("token");
         if (token) {
             onSuccess();
-            notify({ type: "success", mess: "Đăng nhập thành công" });
+            notify({ type: "success", mess: "Đăng ký thành công" });
         }
 
         if (register.data) {
@@ -105,7 +105,8 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                         state: "",
                     }}
                     onSubmit={(values, { setSubmitting }) => {
-                        debugger;
+                        console.log(values);
+                        
                         register.mutate({
                             email: values.email,
                             password: values.password,

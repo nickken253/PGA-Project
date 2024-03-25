@@ -45,7 +45,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       notify({ type: "success", mess: "Đăng nhập thành công" });
     }
     if (login.data) {
-      debugger;
       if (login.data.message !== "OK") {
         debugger;
         notify({ type: "error", mess: `${login.data.message}` });
