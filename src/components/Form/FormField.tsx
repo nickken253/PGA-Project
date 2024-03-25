@@ -2,11 +2,12 @@ import { Field } from "formik";
 import { FORM_STYLES as styles } from "../../config";
 
 interface FormFieldProps {
-  name: string;
+  as?: string;
+  name?: string;
   type: string;
   id: string;
   placeholder: string;
-  validate: (value: string) => string | undefined;
+  validate?: (value: string) => string | undefined;
 }
 
 export const FormField = ({
@@ -15,10 +16,12 @@ export const FormField = ({
   type,
   placeholder,
   validate,
+  as,
 }: FormFieldProps) => {
   return (
-    <div className="md:w-4/5">
+    <div className="md:w-full">
       <Field
+        as={as}
         className={styles.field}
         validate={validate}
         id={id}
@@ -30,13 +33,3 @@ export const FormField = ({
   );
 };
 
-{
-  /* <div className="md:w-4/5">
-                    <Field
-                      className={styles.field}
-                      validate={validateEmail}
-                      id="email"
-                      name="email"
-                    />
-                  </div> */
-}

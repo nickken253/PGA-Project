@@ -1,5 +1,6 @@
 export enum EGender {
-  Male = "male",
-  Female = "female",
-  Other = "other",
+  Default = "Select gender",
+  Male = "Male",
+  Female = "Female",
+  Other = "Other",
 }

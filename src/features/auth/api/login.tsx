@@ -1,5 +1,5 @@
 import { axios } from "../../../lib/axios";
-import { UserResponse } from "../types";
+// import { IUserResponse } from "../../../interfaces/auth.interface";
 
 export interface LoginCredentials {
   email: string;
@@ -11,6 +11,10 @@ export const loginEmailAndPassword = async (credentials: LoginCredentials): Prom
     const response = await axios.post("/auth/login", credentials);
     return response; // Return the user data from the API
   } catch (error) {
-    return error;
+    return {
+      message: error.response?.data?.message || error.message,
+      code: error.response?.data?.code || null,
+      error: true,
+    };
   }
 };

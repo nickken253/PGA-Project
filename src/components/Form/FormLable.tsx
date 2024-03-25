@@ -7,7 +7,7 @@ interface FormLabelProps {
 }
 export const FormLabel = ({ children, htmlFor }: FormLabelProps) => {
   return (
-    <div className="md:w-1/5">
+    <div className="md:w-full">
       <label htmlFor={htmlFor} className={styles.label}>
         {children}
       </label>

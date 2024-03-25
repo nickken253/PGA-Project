@@ -5,5 +5,5 @@ interface IFormGroupProps {
 }
 
 export const FormGroup = ({ children }: IFormGroupProps) => {
-  return <div className="md:flex md:items-center mb-2">{children}</div>;
+  return <div className="md:flex flex-col md:items-start mb-5 relative">{children}</div>;
 };

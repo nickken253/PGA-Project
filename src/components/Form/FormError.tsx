@@ -8,9 +8,8 @@ interface FormErrorProps {
 
 export const FormError = ({ component, name }: FormErrorProps) => {
   return (
-    <div className="md:flex md:items-center mb-6">
-      <div className="md:w-1/5"></div>
-      <div className="md:w-4/5">
+    <div className="md:flex md:items-center mb-2 absolute w-full bottom-0 translate-y-8">
+      <div className="md:w-full flex justify-end">
         <ErrorMessage
           component={component}
           className={styles.errorMsg}

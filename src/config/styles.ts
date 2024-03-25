@@ -7,7 +7,9 @@ export const BUTTON_STYLES = {
 };
 
 export const FORM_STYLES = {
-    label: "block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4",
+    label: "block text-gray-500 font-bold md:left mb-1 md:mb-0 pr-4",
     field: "appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
     errorMsg: "text-sm text-red-600",
+    selector: "appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+    option: "text-gray-700",
 };
