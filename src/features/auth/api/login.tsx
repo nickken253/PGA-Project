@@ -10,7 +10,7 @@ export const loginEmailAndPassword = async (credentials: LoginCredentials): Prom
   try {
     const response = await axios.post("/auth/login", credentials);
     return response; // Return the user data from the API
-  } catch (error) {
+  } catch (error:any) {
     return {
       message: error.response?.data?.message || error.message,
       code: error.response?.data?.code || null,

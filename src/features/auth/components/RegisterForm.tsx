@@ -76,14 +76,11 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         }
 
         if (register.data) {
-            if (register.data.email) {
-                notify({ type: "error", mess: `${register.data.email}` });
-                console.log(register.data.email);
-            } else {
-                console.log(register.data);
-            }
+            if (register.data.message !== "OK") {
+                notify({ type: "error", mess: `${register.data.message}` });
+              }
         }
-    }, [register.data, storage.get("token")]);
+    }, [register.data]);
 
     return (
         <div className="w-full h-full flex items-center justify-center">
@@ -98,20 +95,18 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                     initialValues={{
                         email: "",
                         password: "",
-                        confirmPassword: "",
-                        fullName: "",
+                        repeatPassword: "",
+                        name: "",
                         gender: "",
-                        region: "",
-                        state: "",
+                        region: 0,
+                        state: 0,
                     }}
                     onSubmit={(values, { setSubmitting }) => {
-                        console.log(values);
-                        
                         register.mutate({
                             email: values.email,
                             password: values.password,
-                            confirmPassword: values.confirmPassword,
-                            fullName: values.fullName,
+                            repeatPassword: values.repeatPassword,
+                            name: values.name,
                             gender: values.gender,
                             region: values.region,
                             state: values.state,
@@ -148,7 +143,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                             <FormGroup>
                                 <FormLabel
                                     children="Confirm Password"
-                                    htmlFor="confirmPassword"
+                                    htmlFor="repeatPassword"
                                 />
                                 <FormField
                                     type="password"
@@ -156,22 +151,22 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                                     validate={(value: string) =>
                                         validateConfirmPassword(value, values)
                                     }
-                                    id="confirmPassword"
-                                    name="confirmPassword"
+                                    id="repeatPassword"
+                                    name="repeatPassword"
                                 />
-                                <FormError component="a" name="confirmPassword" />
+                                <FormError component="a" name="repeatPassword" />
                             </FormGroup>
                             
                             <FormGroup>
-                                <FormLabel children="Full Name" htmlFor="FullName" />
+                                <FormLabel children="Full Name" htmlFor="name" />
                                 <FormField
                                     type="text"
                                     placeholder="Full Name"
                                     validate={validateBlank}
-                                    id="fullName"
-                                    name="fullName"
+                                    id="name"
+                                    name="name"
                                 />
-                            <FormError component="a" name="fullName" />
+                            <FormError component="a" name="name" />
                             </FormGroup>
 
                             <GenderSelector />

@@ -8,6 +8,7 @@ interface FormFieldProps {
   id: string;
   placeholder: string;
   validate?: (value: string) => string | undefined;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FormField = ({
@@ -17,10 +18,13 @@ export const FormField = ({
   placeholder,
   validate,
   as,
+  // onChange,
 }: FormFieldProps) => {
   return (
     <div className="md:w-full">
       <Field
+        // value={name}
+        // onChange={onChange}
         as={as}
         className={styles.field}
         validate={validate}

@@ -9,7 +9,7 @@ export const Login = () => {
     
     return (
         <Layout title="Login">
-            <LoginForm onSuccess={() => navigate("/")} />
+            <LoginForm onSuccess={() => navigate("/app/table-list")} />
         </Layout>
     );
 }

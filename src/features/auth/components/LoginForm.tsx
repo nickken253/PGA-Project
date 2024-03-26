@@ -46,11 +46,10 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     }
     if (login.data) {
       if (login.data.message !== "OK") {
-        debugger;
         notify({ type: "error", mess: `${login.data.message}` });
       }
     }
-  }, [login.data, storage.get("token")]);
+  }, [login.data]);
 
   return (
     <div className="w-full h-full flex items-center justify-center">

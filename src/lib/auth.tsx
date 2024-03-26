@@ -23,28 +23,23 @@ async function handleUserResponse(response: IUserResponse): Promise<any>{
 
 async function login(credentials: LoginCredentials): Promise<IUserData>{
     const response = await loginEmailAndPassword(credentials);  
-    // debugger;
-    
     const data = await handleUserResponse(response);  
-    console.log(data);
     
     return data
 }
 
 async function register(credentials: RegisterCredentials): Promise<any>{
     const response = await registerEmailAndPassword(credentials);
-    return response;
+    console.log(response);
+    const data = await handleUserResponse(response);  
+    debugger;
+    return data
 }
 
 async function logout(): Promise<void>{
     storage.remove("token");
     window.location.reload();
 }
-
-const authConfig = {
-    login,
-    logout,
-};
 
 export const { useUser, useLogin, useRegister, useLogout } = configureAuth({
     userFn: function (context: { queryKey: t; signal: AbortSignal; meta: Record<string, unknown> | undefined; }): IUserData | Promise<IUserData> {
@@ -53,8 +48,9 @@ export const { useUser, useLogin, useRegister, useLogout } = configureAuth({
     loginFn: (credentials: LoginCredentials) => {
         return login(credentials);
     },
-    registerFn: function (variables: unknown): Promise<IUserData> {
-        throw new Error('Function not implemented.');
+    registerFn: (credentials: RegisterCredentials) => {
+        debugger;
+        return register(credentials);
     },
     logoutFn: function (): Promise<void> {
         return logout();

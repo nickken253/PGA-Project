@@ -11,6 +11,17 @@ export interface RegisterCredentials {
 };
 
 export const registerEmailAndPassword = async (credentials: RegisterCredentials): Promise<any> => { 
-    const data = axios.post('/auth/register', credentials);
+    console.log(credentials);
+    try {
+    const data = await axios.post('/auth/register', credentials);
+    console.log(data);
     return data;
+    } catch (error:any) {
+        return {
+            message: error.response?.data?.message || error.message,
+            code: error.response?.data?.code || null,
+            error: true,
+        };
+    }
+    
 }
